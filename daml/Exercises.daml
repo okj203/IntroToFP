@@ -31,7 +31,9 @@ testFromOp = script do
 
 
 -- 3. Which of them is the most "useful" and implement it using the `optional` function
---     -> I find fromOptional2 most readable.
+--     -> I find both fromOptional1 and fromOptional2 readable, but 2 is more concise. So I'd say fromOptional2 is the most useful.
+--        fromOptional3 is the most concise, but at a glance it almost looks like it's designed to take only 1 argument. 
+--        If the person who reads my code isn't familiar with this way of writing or how "optional" works, fromOptional3 could cause miscommunication. 
 
 
 -- 4. How many implementations exist for "foo : a -> a -> a -> a"
