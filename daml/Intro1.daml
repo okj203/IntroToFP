@@ -1,0 +1,89 @@
+-- On boarding training by Andrae Muys based on:
+-- https://github.com/DACH-NY/awm-examples-and-essays/blob/main/presentations/intro-to-fp/Intro1.txt
+
+module Intro1 where
+
+import Daml.Script
+import DA.Text qualified as T
+import Prelude hiding (Either(..), either)
+
+data Either e a
+  = Left e
+  | Right a
+
+cantFail : Int -> Int
+cantFail n = n
+
+mightFail : Int -> Either Text Int
+mightFail n = Right n 
+
+
+-- informative types i.e. Either, Optional
+-- either apply various functions from the standard library OR pattern match on it
+displayLength1 : Either (Optional Text) Decimal -> Int
+displayLength1 etd =
+  case etd of -- pattern matching; NOT a statement, it's an EXPRESSION. case can be thought of as a function call that can be evaluated
+    Left ot  -> case ot of
+        Some t -> T.length t
+        None   -> T.length "<None>"
+    -- Right d -> T.length $ show d
+    Right d -> T.length . show $ d 
+    -- "." means compose, which means there can only be a function before & after a "."
+    -- we cannot compose a value with a function 
+    -- since "." takes higher precedence, without the $, "." will try to do "T.length . (show d)" first, which doesn't work since "show d" is a value, not a function
+
+displayLength2 : Either (Optional Text) Decimal -> Int
+displayLength2 etd = 
+  case etd of 
+    Left ot -> T.length $ case ot of 
+      Some t -> t 
+      None -> "<None>"
+    Right d -> T.length .show $ d
+
+displayLength3 : Either (Optional Text) Decimal -> Int
+displayLength3 etd = 
+  T.length $ case etd of
+    Left ot -> case ot of
+      Some t -> t
+      None -> "<None>"
+    Right d -> show d
+
+-- optional : b -> (a -> b) -> Optional a -> b
+-- The optional function takes a default value, a function, and a Optional value. If the Optional value is None, the function returns the default value. Otherwise, it applies the function to the value inside the Some and returns the result.
+
+-- identity : a -> a
+
+displayLength4 : Either (Optional Text) Decimal -> Int 
+displayLength4 etd = T.length $
+  case etd of 
+    Left ot -> optional "<None>" identity ot 
+    Right d -> show d
+
+-- The either function provides case analysis for the Either type. If the value is Left a, it applies the first function to a; if it is Right b, it applies the second function to b.
+either : (e -> b) -> (a -> b) -> Either e a -> b 
+either fe fa eea =
+  case eea of
+    Left e -> fe e
+    Right a -> fa a 
+
+displayLength5 : Either (Optional Text) Decimal -> Int
+displayLength5 etd = T.length $ either (optional "<None>" identity) show etd
+-- "optional" can be utilized as a function that takes 2 arguments to return a function (instead of as a function that takes 3 args)
+-- which then can be passed as the first argument of "either" which takes 3 args: (1) func to run for Left val, (2) func to run for Right val, (3) val that could be evaluated to either Left or Right
+
+displayLength6 : Either (Optional Text) Decimal -> Int
+displayLength6 = T.length . either (optional "<None>" identity) show
+-- displayLength can be considered/written as a function that maps a to b, as in "dispLen : a -> b"
+-- displayLength can be a variable that refers to a function, which returns a function that's designed to take 1 arg
+
+display : Either (Optional Text) Decimal -> Text
+display = either (optional "<None>" identity) show
+
+displayLength : Either (Optional Text) Decimal -> Int
+displayLength = T.length . display
+-- displayLength can be decomposed into "T.length" from the library and "display", which can be written on its own
+
+testDispLen = script do
+  debug $ displayLength $ Left $ Some "Hi"
+  debug $ displayLength $ Left $ None
+  debug $ displayLength $ Right 0.0

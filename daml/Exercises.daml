@@ -1,0 +1,59 @@
+module Exercises where
+
+import Daml.Script
+import Prelude hiding (fromOptional)
+
+
+-- Exercises
+-- =========
+
+
+-- 1. How many implementations for "fromOptional : a -> Optional a -> a" 
+--     -> 3
+
+
+-- 2. Implement all of them
+fromOptional1 : a -> Optional a -> a 
+fromOptional1 dv opv =
+  case opv of
+    Some v -> v 
+    None -> dv
+
+fromOptional2 : a -> Optional a -> a 
+fromOptional2 dv opv = optional dv identity opv
+
+fromOptional3 : a -> Optional a -> a 
+fromOptional3 dv = optional dv identity
+
+testFromOp = script do
+  debug $ fromOptional3 ("default text") (Some "some text")
+  debug $ fromOptional3 ("default text") None
+
+
+-- 3. Which of them is the most "useful" and implement it using the `optional` function
+--     -> I find fromOptional2 most readable.
+
+
+-- 4. How many implementations exist for "foo : a -> a -> a -> a"
+--     -> 3
+
+
+-- 5. Implement all of them
+foo1 : a -> a -> a -> a 
+foo1 x y z = x
+
+foo2 : a -> a -> a -> a 
+foo2 x y z = y
+
+foo3 : a -> a -> a -> a
+foo3 x y z = z
+
+{-
+    There are only 3 ways to implement the function foo based off of its signature.
+    If I know what type "a" is, I can also return a constant value of that data type, but I can't know just by looking at the type parameter "a".
+    So now we can either crash it, or derive the output from the input.
+
+    Since we have 3 input parameters that are of type "a" I can return any one of them to guaranteee the return type to be also "a".
+
+    By running "foo b c d = _" I can also find out that there are only 3 ways that I an derive the output from the input. 
+-}
