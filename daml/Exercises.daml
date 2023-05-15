@@ -52,10 +52,12 @@ foo3 x y z = z
 
 {-
     There are only 3 ways to implement the function foo based off of its signature.
-    If I know what type "a" is, I can also return a constant value of that data type, but I can't know just by looking at the type parameter "a".
-    So now we can either crash it, or derive the output from the input.
+    If I know what type "a" is, I can also return a constant value of that data type. 
+    However, I can't assume what type "a" is just by looking at the type parameter itself or the function signature.
+    
+    So now I can either crash it, or derive the output from the input.
 
     Since we have 3 input parameters that are of type "a" I can return any one of them to guaranteee the return type to be also "a".
 
-    By running "foo b c d = _" I can also find out that there are only 3 ways that I an derive the output from the input. 
+    By running "foo b c d = _" I can also find out that there are only 3 ways that I can derive the output from the input. 
 -}
