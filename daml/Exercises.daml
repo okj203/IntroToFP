@@ -26,9 +26,15 @@ fromOptional2 dv opv = optional dv identity opv
 fromOptional3 : a -> Optional a -> a 
 fromOptional3 dv = optional dv identity
 
+customOptional: a -> Optional a -> a
+customOptional arg1 arg2 = optional arg1 identity arg2
+
+fromOptional4 : a -> Optional a -> a
+fromOptional4 dv opv = customOptional dv opv
+
 testFromOp = script do
-  debug $ fromOptional3 ("default text") (Some "some text")
-  debug $ fromOptional3 ("default text") None
+  debug $ fromOptional4 ("default text") (Some "some text")
+  debug $ fromOptional4 ("default text") None
 
 
 -- 3. Which of them is the most "useful" and implement it using the `optional` function
