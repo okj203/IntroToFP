@@ -9,7 +9,8 @@ import Prelude hiding (fromOptional)
 
 
 -- 1. How many implementations for "fromOptional : a -> Optional a -> a" 
---     -> 3
+--     -> There are more than one implementation, but I found three expressions of the same implementation. 
+--        If they do the same thing they will by definition have the same type signature. 
 
 
 -- 2. Implement all of them
@@ -37,7 +38,7 @@ testFromOp = script do
 
 
 -- 4. How many implementations exist for "foo : a -> a -> a -> a"
---     -> 3
+--     -> 1 implementation, 3 expressions
 
 
 -- 5. Implement all of them
