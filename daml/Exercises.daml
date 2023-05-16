@@ -62,3 +62,26 @@ foo3 x y z = z
 
     By running "foo b c d = _" I can also find out that there are only 3 ways that I can derive the output from the input. 
 -}
+
+
+{-
+Lecturer's Feedback:
+
+Your answer to question 3 indicates to me that you fully understood the purpose of the lesson, 
+and came away with what is probably my top priority “skill” to impart — thinking about functions in terms of their types.
+
+Your answer to question 1 is interesting because it highlights a difference in the way an FP-programmer thinks about 
+“number of implementations” vs. imperatively trained programmers.
+
+All three of your implementations do the same thing, and therefore from the perspective of an FP-programmer thinking about types, are the same implementation.
+
+You also missed an implementation (in both FP and Imperative senses) — try applying the same principles you used in the third question to the first one.
+
+Well done on the implementations you did provide—especially the third one. 
+You are right that that implementation presumes a slightly higher bar of Daml programming — 
+but we would probably still consider it sits within “basic competence”, as would knowing the optional function requires three arguments 
+to reduce to a concrete value (all that is to say that this was a common choice in Spider, repeated parameters are clutter, 
+and require the reader to check they are only used once).
+
+Still, as a beginner the 2nd option is a good one.
+-}
