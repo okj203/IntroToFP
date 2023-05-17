@@ -9,7 +9,7 @@ import Prelude hiding (fromOptional)
 
 
 -- 1. How many implementations for "fromOptional : a -> Optional a -> a" 
---     -> There are more than one implementation, but I found three expressions of the same implementation. 
+--     -> There are more than one implementation, but I found four expressions of the same implementation. +1 "silly/different" implementation
 --        If they do the same thing they will by definition have the same type signature. 
 
 
@@ -31,6 +31,10 @@ customOptional arg1 arg2 = optional arg1 identity arg2
 
 fromOptional4 : a -> Optional a -> a
 fromOptional4 dv opv = customOptional dv opv
+
+-- different implementation
+fromOptional5 : a -> Optional a -> a 
+fromOptional5 dv opv = dv
 
 testFromOp = script do
   debug $ fromOptional4 ("default text") (Some "some text")
