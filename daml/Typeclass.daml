@@ -1,0 +1,24 @@
+module Typeclass where
+
+import Daml.Script
+
+data MyType a = MyType_WithAnInt Int
+                | MyType_WithAnA a
+                | MyType_WithNothing
+                deriving(Show, Eq, Ord)
+
+test = script do
+    let 
+        myType = MyType_WithAnA 1
+        
+        myInt : MyType Int
+        myInt = MyType_WithAnInt 1
+
+        myNothing : MyType ()
+        myNothing = MyType_WithNothing
+
+    debug $ myType
+    debug $ myInt
+    debug $ myNothing
+
+    return ()
